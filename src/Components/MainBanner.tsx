@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from "react-native"
+import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions, ActivityIndicator } from "react-native"
 import Video from "react-native-video"
 import Icon from "react-native-vector-icons/Ionicons"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
@@ -18,10 +18,11 @@ export default function MainBanner() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
   const videoRef = useRef<Video>(null)
+  const [isLoadingVideo, setIsLoadingVideo] = useState(false)
 
   const slides = [
     { type: "image", src: hayasBike },
-    { type: "video", src: videoSrc },
+    { type: "video", src: 'https://files.catbox.moe/stq0ov.mp4' },
   ]
 
   const handleNext = () => {
@@ -69,20 +70,30 @@ export default function MainBanner() {
           <View key="video" style={styles.videoWrapper}>
             <Video
               // ref={videoRef}
-              source={slides[slideIndex].src}
+              source={{uri: slides[slideIndex].src}}
               style={styles.video}
               resizeMode="contain"
               // repeat
               // muted={isMuted}
               // paused={!isPlaying}
               controls
+              onLoadStart={() => setIsLoadingVideo(true)}
+              onBuffer={({ isBuffering }) => setIsLoadingVideo(isBuffering)}
               onLoad={() => {
+                setIsLoadingVideo(false)
                 // Ensure video starts playing when loaded if it's the current slide
                 if (slides[slideIndex].type === "video") {
                   setIsPlaying(true)
                 }
               }}
+              onError={() => setIsLoadingVideo(false)}
             />
+            {isLoadingVideo && (
+              <View style={styles.loadingOverlay}>
+                <ActivityIndicator size="large" color="#facc15" />
+                <Text style={styles.loadingText}>Loading video...</Text>
+              </View>
+            )}
             {/* <View style={styles.controls}>
               <TouchableOpacity onPress={toggleMute} style={styles.controlButton}>
                 <Icon name={isMuted ? "volume-mute" : "volume-high"} size={26} color="#fff" />
@@ -217,5 +228,22 @@ const styles = StyleSheet.create({
   },
   rightNav: {
     alignSelf: "flex-end",
+  },
+  loadingOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 2,
+  },
+  loadingText: {
+    color: "#fff",
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: "bold",
   },
 })
