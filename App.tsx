@@ -5,18 +5,26 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { Platform, SafeAreaView, StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import WebView from 'react-native-webview';
+import { Provider } from 'react-redux';
+import { store } from './src/Redux/store';
+import MainNavigator from './src/Navigation/MainNavigator';
+import LinearGradient from 'react-native-linear-gradient';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
-  );
+<Provider store={store}>
+   <LinearGradient
+      colors={["#000000", "#011627"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
+      <MainNavigator />
+  </LinearGradient>
+    </Provider>  );
 }
 
 const styles = StyleSheet.create({
