@@ -94,30 +94,30 @@ const HorizontalProductItem: React.FC<{ product: Product; cardWidth: number }> =
 
             {/* Quantity One */}
             <View style={styles.quantitySection}>
-              <Text style={styles.quantityLabel}>{product.quantityOne}</Text>
-              <View style={styles.quantityControls}>
+              {/* <Text style={styles.quantityLabel}>{product.quantityOne}</Text> */}
+              {/* <View style={styles.quantityControls}> */}
                 <TouchableOpacity onPress={() => handleUpdateQuantity("One", "decrease")} style={styles.quantityButton}>
                   <Text style={styles.quantityButtonText}>-</Text>
                 </TouchableOpacity>
-                <Text style={styles.quantityCountText}>{quantityOneCount}</Text>
+              <Text style={styles.quantityCountText}>{quantityOneCount === 0 ? product.quantityOne : quantityOneCount}</Text>
                 <TouchableOpacity onPress={() => handleUpdateQuantity("One", "increase")} style={styles.quantityButton}>
                   <Text style={styles.quantityButtonText}>+</Text>
                 </TouchableOpacity>
-              </View>
+              {/* </View> */}
             </View>
 
             {/* Quantity Two (if exists) */}
             {product.quantityTwo && product.quantityTwo !== "0" && product.quantityTwo !== "" && (
               <View style={styles.quantitySection}>
-                <Text style={styles.quantityLabel}>{product.quantityTwo}</Text>
-                <View style={styles.quantityControls}>
+                {/* <Text style={styles.quantityLabel}>{product.quantityTwo}</Text> */}
+                {/* <View style={styles.quantityControls}> */}
                   <TouchableOpacity
                     onPress={() => handleUpdateQuantity("Two", "decrease")}
                     style={styles.quantityButton}
                   >
                     <Text style={styles.quantityButtonText}>-</Text>
                   </TouchableOpacity>
-                  <Text style={styles.quantityCountText}>{quantityTwoCount}</Text>
+              <Text style={styles.quantityCountText}>{quantityTwoCount === 0 ? product.quantityTwo : quantityTwoCount}</Text>
                   <TouchableOpacity
                     onPress={() => handleUpdateQuantity("Two", "increase")}
                     style={styles.quantityButton}
@@ -125,7 +125,7 @@ const HorizontalProductItem: React.FC<{ product: Product; cardWidth: number }> =
                     <Text style={styles.quantityButtonText}>+</Text>
                   </TouchableOpacity>
                 </View>
-              </View>
+              // </View>
             )}
           </View>
         </View>

@@ -68,6 +68,9 @@ export const CustomDrawerContent = (props: any) => {
               case "About":
                 iconName = "information-circle-outline"
                 break
+                case "Intro":
+                  iconName = "reload"
+                  break
             }
 
             return (

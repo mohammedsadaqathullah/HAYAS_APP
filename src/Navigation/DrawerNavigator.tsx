@@ -29,7 +29,6 @@ export default function DrawerNavigator() {
     >
 
       <Drawer.Screen name="HomeTabs" component={BottomTabsNavigator} options={{ title: "Home" }} />
-      <Drawer.Screen name="Intro" component={IntroLottie} options={{ title: "" }} />
       <Drawer.Screen name="ToyBoxz" component={ToyBoxzScreen} options={{ title: "ToyBoxz" }} />
       <Drawer.Screen name="Food" component={FoodsScreen} options={{ title: "Food" }} />
       <Drawer.Screen name="Grocery" component={GroceryScreen} options={{ title: "Grocery" }} />
@@ -41,6 +40,8 @@ export default function DrawerNavigator() {
       <Drawer.Screen name="Cart" component={CartScreen} options={{ title: "Cart" }} />
       <Drawer.Screen name="Profile" component={ProfileScreen} options={{ title: "Profile" }} />
       <Drawer.Screen name="About" component={AboutScreen} options={{ title: "About Us" }} />
+      <Drawer.Screen name="Intro" component={IntroLottie} options={{ title: "Reload App" ,headerShown: false}}  />
+
     </Drawer.Navigator>
   )
 }

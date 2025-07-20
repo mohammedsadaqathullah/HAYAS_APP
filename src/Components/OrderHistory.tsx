@@ -13,12 +13,12 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons" // Assuming Ionicons is installed
 
 const PAGE_SIZE = 5 // Initially render 5 orders, then load 5 more
-const { height: screenHeight } = Dimensions.get("window")
 
 const OrderHistory = ({ orders }: { orders: any[] }) => {
   const [visibleOrdersCount, setVisibleOrdersCount] = useState(PAGE_SIZE)
   const [loadingMore, setLoadingMore] = useState(false)
   const [showHistory, setShowHistory] = useState(false) // State to control visibility
+  const [contentHeight, setContentHeight] = useState(0)
 
   // Animated values for the reveal animation
   const animatedHeight = useRef(new Animated.Value(0)).current
@@ -28,7 +28,7 @@ const OrderHistory = ({ orders }: { orders: any[] }) => {
     if (showHistory) {
       Animated.parallel([
         Animated.timing(animatedHeight, {
-          toValue: screenHeight, // Animate to a large height to reveal content
+          toValue: contentHeight, // Animate to a large height to reveal content
           duration: 500,
           useNativeDriver: false, // Height animation requires useNativeDriver: false
         }),
@@ -167,16 +167,17 @@ const OrderHistory = ({ orders }: { orders: any[] }) => {
         </TouchableOpacity>
       )}
 
-      <Animated.View
-        style={[
-          styles.animatedContainer,
-          {
-            maxHeight: animatedHeight, // Animate max height
-            opacity: animatedOpacity, // Animate opacity
-            overflow: "hidden", // Hide content when collapsed
-          },
-        ]}
-      >
+<Animated.View
+  style={[
+    styles.animatedContainer,
+    {
+      opacity: animatedOpacity,
+      height: showHistory ? 'auto' : 0,
+      overflow: showHistory ? 'visible' : 'hidden',
+    },
+  ]}
+>
+
         {showHistory && ( // Only render FlatList when showHistory is true to avoid initial rendering issues
           <FlatList
             data={orders.slice(0, visibleOrdersCount)}
